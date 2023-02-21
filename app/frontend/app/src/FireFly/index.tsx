@@ -1,30 +1,42 @@
+import {FC} from 'react';
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+
+import {About} from './About';
 import {Header} from './Header';
-import {MetaDataTable} from './MetaDataTable';
-import {HotSpotMap} from './HotspotMap';
+import {Home} from './Home';
 
 const area = {
     header: 'header',
-    metadataTable: 'metadataTable',
-    hotspotMap: 'hotspotMap'
+    element: 'element',
 };
 
-const style = {
+const style:React.CSSProperties = {
     display: 'grid',
     width: '100vw',
     height: '100vh',
+    position: 'relative',
+    margin: 0,
+    padding: 0,
+    border: 0,
+    background: '#22272e',
+    color: '#b8b7ad',
     gridTemplate: `
-    " ${area.header}        ${area.header}     " 0.10fr
-    " ${area.metadataTable} ${area.hotspotMap} " 1fr
-    / 0.4fr                 1fr`
+    " ${area.header} " 0.10fr
+    " ${area.element} " 1fr
+    / 1fr`
 };
 
-export const FireFly = () => {
+export const FireFly:FC = () => {
     return(
-    <div style={style}>
-        <Header style={{gridArea: area.header}} />
-        <MetaDataTable style={{gridArea: area.metadataTable}} />
-        <HotSpotMap style={{gridArea: area.hotspotMap}} />
-    </div>
+        <Router>
+            <div style={style}>
+                <Header style={{gridArea: area.header}} />
+                <Routes>
+                    <Route path="/" element={<Home style={{gridArea: area.element}}/>}/>
+                    <Route path="/about" element={<About style={{gridArea: area.element}}/>}/>
+                </Routes>
+            </div>
+        </Router>
     );
 }
 

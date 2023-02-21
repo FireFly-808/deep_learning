@@ -1,13 +1,50 @@
 import {FC} from 'react';
-import {gridstyle, Props} from '../Common/styles';
+import {Props, gridstyle, elementStyle} from '../Common/styles';
+import {MainMenu, NavigationLink} from './Menu';
+
+const area = {
+    menu: 'menu',
+    title: 'title',
+    logo: 'logo',
+}
+
+const headerStyle:React.CSSProperties = {
+    ...gridstyle,
+    position: 'relative',
+    height: '100%',
+    gridTemplate: `
+    " ${area.menu} ${area.title} ${area.logo}" auto
+    / 0.10fr       1fr           0.10fr`
+}
 
 export const Header: FC<Props> = ({style}) => {
+    const navLinks:NavigationLink[] = [
+        {name: 'Home', path: 'http://localhost:3000/'},
+        {name: 'About', path: 'http://localhost:3000/about'}
+    ]
     return (
-        <h1 style={{
-            ...gridstyle,
-            ...style,
+        <div style={{
+            ...headerStyle,
+            ...style
         }}>
-            FireFly
-        </h1>
+            <MainMenu style={{gridArea:area.menu}} navlinks={navLinks}></MainMenu>
+            <h1 style={{
+                ...elementStyle,
+                gridArea: area.title}}
+            >
+                FireFly
+            </h1>
+            <div
+                style={{
+                    ...elementStyle
+                }}
+            >
+                <img style={{
+                    width: '60%',
+                    height: '75%',
+                    gridArea:area.logo
+                    }} src={'temp-logo.jpg'} alt=''/>
+            </div>
+        </div>
     )
 }

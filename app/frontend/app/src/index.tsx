@@ -7,11 +7,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 const App = () => {
-  document.body.style.backgroundColor = "grey";
+  document.body.style.backgroundColor = "#22272e";
   document.body.style.margin = "0";
   return (
     <React.StrictMode>
-      <FireFly />
+        <FireFly/>
     </React.StrictMode>
   )
 }

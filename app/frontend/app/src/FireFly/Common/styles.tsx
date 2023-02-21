@@ -1,14 +1,20 @@
-export const gridstyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: '#22272e',
-    color: 'rgb(170, 170, 170)',
-    border: 0,
-    margin: 0,
-    padding: 0
-}
-
 export interface Props {
     style: React.CSSProperties
+}
+
+export const gridstyle:React.CSSProperties = {
+    border: 0,
+    display: 'grid',
+    height: '100%',
+    margin: 0,
+    padding: 0,
+    width: '100%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+}
+
+export const elementStyle:React.CSSProperties = {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center'
 }

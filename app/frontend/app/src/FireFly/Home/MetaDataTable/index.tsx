@@ -1,11 +1,12 @@
 import {FC} from 'react';
-import {gridstyle, Props} from '../Common/styles';
+import {elementStyle, Props} from '../../Common/styles';
 
 export const MetaDataTable:FC<Props> = ({style}) => {
     return (
         <h1 style={{
             ...style,
-            ...gridstyle,
+            ...elementStyle,
+            margin: 0,
             border: '1.5px solid black',
             borderBottom: '0',
             borderLeft: '0',

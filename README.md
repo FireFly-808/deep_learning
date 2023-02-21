@@ -16,7 +16,7 @@ Maps preview with waypoints as selectable spots which fills in the side window w
 Side Window when spot selected:
 - [ ] RGB photo
 - [ ] IR Photo
-- [ ] date, time
+- [ ] date, time, location (lat, long)
 - [ ] Severity
 - [ ] Selectable status (confirmation modal maybe)
 - [ ] Status of hotspot (not viewed, viewed, visited, dismissed)

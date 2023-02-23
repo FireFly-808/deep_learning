@@ -34,7 +34,7 @@ Application running on AWS that has 2 endpoints:
 
 ### <b> Steps </B>:
 - [x] Setup docker and database
-- [ ] Make models for db tables
+- [x] Make models for db tables
 - [ ] Make receive images endpoint
 - [ ] Make send images endpoint
 - [ ] Deploy to aws

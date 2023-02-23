@@ -51,10 +51,11 @@ This can classify the whole image as fire or not along with a confidence score.
 - [ ] Extract bounding box from output to then draw it on image
 - [ ] Explore detector models that fuse ir and rgb and compare their performance.
 
-Notes: 
+### <b> Notes </B>:
+
 How the backend and deep learning endpoints will communicate to process images:
 
-Clarrification (Endpoints: BE = Back End, FE = Front End, DL = Deep Learning)
+*Endpoints: BE = Back End, FE = Front End, DL = Deep Learning.
 1. DL sends BE a GET req every 10 minutes, to check if there are images to classify.
 2. BE sends DL a GET req, returning a list of ids corresponding to database records
     (of the images) that need to be classified.

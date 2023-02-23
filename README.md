@@ -40,6 +40,10 @@ Application running on AWS that has 2 endpoints:
 - [ ] Deploy to aws
 
 # <u> Drone Data Collection: </u>
+NECESSARY CHANGES:
+- [ ] Change drone script to poll for a wifi connection when done collecting images
+- [ ] Images should be saved as jpegs on drone
+- [ ] When wifi connection is established, drone calls endpoint for each image to send over (instead of packaging all images into one POST payload)
 
 Drone to server code can be found under `drone/data_collection`
 

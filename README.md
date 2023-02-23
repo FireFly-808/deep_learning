@@ -28,10 +28,16 @@ Stretch Goals:
 
 # <u> Backend: </u>
 
-Please add requirements (summarize endpoints offered by backend server)
+Application running on AWS that has 2 endpoints:
+1) receive image, save, process, and log in database (called by rpi on drone)
+2) give image from db (called by client app)
 
-### <b> Next Steps </B>:
-
+### <b> Steps </B>:
+- [x] Setup docker and database
+- [ ] Make models for db tables
+- [ ] Make receive images endpoint
+- [ ] Make send images endpoint
+- [ ] Deploy to aws
 
 # <u> Drone Data Collection: </u>
 

@@ -39,6 +39,30 @@ Application running on AWS that has 2 endpoints:
 - [ ] Make send images endpoint
 - [ ] Deploy to aws
 
+
+# <u> Deep Learning: </u>
+This endpoint works with the backend to periodically check for unprocessed images and processes them.
+
+### <b> Current Status </B>:
+Locally running ResNet34 detector trained on google images of wildfires.
+This can classify the whole image as fire or not along with a confidence score.
+
+### <b> Next Steps </B>:
+- [ ] Extract bounding box from output to then draw it on image
+- [ ] Explore detector models that fuse ir and rgb and compare their performance.
+
+Notes: 
+How the backend and deep learning endpoints will communicate to process images:
+
+Clarrification (Endpoints: BE = Back End, FE = Front End, DL = Deep Learning)
+1. DL sends BE a GET req every 10 minutes, to check if there are images to classify.
+2. BE sends DL a GET req, returning a list of ids corresponding to database records
+    (of the images) that need to be classified.
+3. DL loops through the ids and for each ID, sends BE a GET req for the image data.
+4. BE sends DL a GET req, with the image data (as png, jpg, etc.).
+5. DL classifies the image and packages the results (painted image(s) + metadata).
+6. DL sends BE a GET req, with the results of the classification and modifies DB.
+
 # <u> Drone Data Collection: </u>
 NECESSARY CHANGES:
 - [ ] Change drone script to poll for a wifi connection when done collecting images

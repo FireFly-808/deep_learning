@@ -5,7 +5,7 @@
 
 Run the frontend application with the following command:
 
-`cd app/frontend/app && npm start`
+`cd app/frontend/app && npm install && npm start`
 
 ### <b> Next Steps </B>:
 
@@ -18,7 +18,7 @@ Side Window when spot selected:
 - [ ] IR Photo
 - [ ] date, time, location (lat, long)
 - [ ] Severity
-- [ ] Selectable status (confirmation modal maybe)
+- [ ] Selectable status (confirmation modal) Setting status should change the status on map and metadata table
 - [ ] Status of hotspot (not viewed, viewed, visited, dismissed)
 
 

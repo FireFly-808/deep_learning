@@ -12,6 +12,7 @@ const headerStyle:React.CSSProperties = {
     ...gridstyle,
     position: 'relative',
     height: '100%',
+    borderBottom: '2.5px solid black',
     gridTemplate: `
     " ${area.menu} ${area.title} ${area.logo}" auto
     / 0.10fr       1fr           0.10fr`

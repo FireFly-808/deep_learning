@@ -9,8 +9,6 @@ export const gridstyle:React.CSSProperties = {
     margin: 0,
     padding: 0,
     width: '100%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
 }
 
 export const elementStyle:React.CSSProperties = {

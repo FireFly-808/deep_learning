@@ -62,7 +62,7 @@ How the backend and deep learning endpoints will communicate to process images:
 3. DL loops through the ids and for each ID, sends BE a GET req for the image data.
 4. BE sends DL a GET req, with the image data (as png, jpg, etc.).
 5. DL classifies the image and packages the results (painted image(s) + metadata).
-6. DL sends BE a GET req, with the results of the classification and modifies DB.
+6. DL sends BE a GET req, then with the results of the classification, BE modifies DB.
 
 # <u> Drone Data Collection: </u>
 NECESSARY CHANGES:

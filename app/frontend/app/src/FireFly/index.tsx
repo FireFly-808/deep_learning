@@ -15,13 +15,14 @@ const style:React.CSSProperties = {
     width: '100vw',
     height: '100vh',
     position: 'relative',
+    overflowX: 'hidden',
     margin: 0,
     padding: 0,
     border: 0,
     background: '#22272e',
     color: '#b8b7ad',
     gridTemplate: `
-    " ${area.header} " 0.10fr
+    " ${area.header} " 0.05fr
     " ${area.element} " 1fr
     / 1fr`
 };

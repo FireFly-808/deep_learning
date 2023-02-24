@@ -5,7 +5,7 @@
 
 Run the frontend application with the following command:
 
-`cd app/frontend/app && npm start`
+`cd app/frontend/app && npm install && npm start`
 
 ### <b> Next Steps </B>:
 
@@ -18,7 +18,7 @@ Side Window when spot selected:
 - [ ] IR Photo
 - [ ] date, time, location (lat, long)
 - [ ] Severity
-- [ ] Selectable status (confirmation modal maybe)
+- [ ] Selectable status (confirmation modal) Setting status should change the status on map and metadata table
 - [ ] Status of hotspot (not viewed, viewed, visited, dismissed)
 
 
@@ -35,9 +35,36 @@ Application running on AWS that has 2 endpoints:
 ### <b> Steps </B>:
 - [x] Setup docker and database
 - [x] Make models for db tables
-- [ ] Make receive images endpoint
-- [ ] Make send images endpoint
-- [ ] Deploy to aws
+- [x] Make endpoint add_record (drone->server)
+- [ ] Make endpoint get_list_of_locations (webapp->server)
+- [ ] Make endpoint get_record_details (webapp->server)
+- [ ] Make endpoint update_status (webapp->server)
+- [ ] Deploy to aws/gcp
+
+
+# <u> Deep Learning: </u>
+This endpoint works with the backend to periodically check for unprocessed images and processes them.
+
+### <b> Current Status </B>:
+Locally running ResNet34 detector trained on google images of wildfires.
+This can classify the whole image as fire or not along with a confidence score.
+
+### <b> Next Steps </B>:
+- [ ] Extract bounding box from output to then draw it on image
+- [ ] Explore detector models that fuse ir and rgb and compare their performance.
+
+### <b> Notes </B>:
+
+How the backend and deep learning endpoints will communicate to process images:
+
+*Endpoints: BE = Back End, FE = Front End, DL = Deep Learning.
+1. DL sends BE a GET req every 10 minutes, to check if there are images to classify.
+2. BE sends DL a GET req, returning a list of ids corresponding to database records
+    (of the images) that need to be classified.
+3. DL loops through the ids and for each ID, sends BE a GET req for the image data.
+4. BE sends DL a GET req, with the image data (as png, jpg, etc.).
+5. DL classifies the image and packages the results (painted image(s) + metadata).
+6. DL sends BE a GET req, then with the results of the classification, BE modifies DB.
 
 # <u> Drone Data Collection: </u>
 NECESSARY CHANGES:

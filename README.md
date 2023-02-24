@@ -35,9 +35,11 @@ Application running on AWS that has 2 endpoints:
 ### <b> Steps </B>:
 - [x] Setup docker and database
 - [x] Make models for db tables
-- [ ] Make receive images endpoint
-- [ ] Make send images endpoint
-- [ ] Deploy to aws
+- [x] Make endpoint add_record (drone->server)
+- [ ] Make endpoint get_list_of_locations (webapp->server)
+- [ ] Make endpoint get_record_details (webapp->server)
+- [ ] Make endpoint update_status (webapp->server)
+- [ ] Deploy to aws/gcp
 
 
 # <u> Deep Learning: </u>

@@ -10,9 +10,7 @@ const App = () => {
   document.body.style.backgroundColor = "#22272e";
   document.body.style.margin = "0";
   return (
-    <React.StrictMode>
-        <FireFly/>
-    </React.StrictMode>
+      <FireFly/>
   )
 }
 root.render(<App/>);

@@ -12,7 +12,7 @@ export enum Status {
     NotViewed = "Not Viewed",
 }
 
-export interface Waypoints {
+export interface Waypoint {
     lat: number,
-    long: number
+    lng: number
 }

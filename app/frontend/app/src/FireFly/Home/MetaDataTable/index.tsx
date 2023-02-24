@@ -31,9 +31,7 @@ const MDTable:React.CSSProperties = {
 }
 
 export const MetaDataTable:FC<Props> = ({style}) => {
-    const {setNoMetaData} = useContext(DataProvider);
-    const lat = "57.78";
-    const long = "43.23";
+    const {setNoMetaData, lat, lng} = useContext(DataProvider);
     const date = new Date().toISOString().slice(0, 10);
     const status:Status = Status.NotViewed;
     const severity:Severity = Severity.NoFire;
@@ -74,7 +72,7 @@ export const MetaDataTable:FC<Props> = ({style}) => {
                 </button>
             </div>
             <h2 style={{gridArea: area.location}}>
-                {"Latitude, Longitude: " + lat + ", " + long}
+                {"Latitude, Longitude: " + lat + ", " + lng}
             </h2>
 
             <h2 style={{gridArea: area.date}}>
@@ -124,8 +122,8 @@ export const MetaDataTable:FC<Props> = ({style}) => {
                 >
                     <img 
                         style={{
-                            width: '95%',
-                            height: '95%',
+                            width: '75%',
+                            height: '65%',
                         }} 
                         src={'picture1.png'} alt=''
                     />
@@ -138,8 +136,8 @@ export const MetaDataTable:FC<Props> = ({style}) => {
                 >
                     <img 
                         style={{
-                            width: '95%',
-                            height: '95%',
+                            width: '75%',
+                            height: '75%',
                         }} 
                         src={'picture1.png'} alt=''
                     />

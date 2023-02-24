@@ -26,11 +26,18 @@ const metaDataStyle:React.CSSProperties = {
 export const Home:FC<Props> = ({style}) => {
 
     const [noMetaData, setNoMetaData] = useState<boolean>(true)
+    const [lat, setLat] = useState<number | null>(null);
+    const [lng, setLng] = useState<number | null>(null);
 
     return (
         <DataProvider.Provider value={{
+            lat: lat,
+            lng: lng,
+            noMetaData: noMetaData,
+            setLat: setLat,
+            setLng: setLng,
             setNoMetaData: setNoMetaData,
-            noMetaData: noMetaData
+
         }}
         >
             {!noMetaData && 
@@ -46,6 +53,7 @@ export const Home:FC<Props> = ({style}) => {
                 <div style={{
                     ...style,
                     ...defaultStyle,
+                    
                 }}>
                     <HotSpotMap style={{gridArea: area.map}} />
                 </div>

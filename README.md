@@ -23,7 +23,7 @@ Side Window when spot selected:
 
 
 Stretch Goals:
-- [ ] Make the side window dynamic rather than static
+- [x] Make the side window dynamic rather than static
 - [ ] Get waypoints for a specific time period (specified dates)
 
 # <u> Backend: </u>

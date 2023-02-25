@@ -1,24 +1,24 @@
 import {FC, useContext} from 'react';
 import PlaceIcon from '@mui/icons-material/Place';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import {DataProvider} from "../DataProvider";
+import {HotSpot} from '../../Common/types';
 
-interface MarkerInterface {
-    lat: number
-    lng: number
+interface MarkerProps {
+    lat: number,
+    lng: number,
+    hotSpot: HotSpot
 }
 
-export const Marker:FC<MarkerInterface> = ({lat, lng}) => {
+export const Marker:FC<MarkerProps> = ({lat, lng, hotSpot}) => {
 
-    const {setNoMetaData, setLat, setLng, noMetaData} = useContext(DataProvider)
+    const {setNoMetaData, setHotSpot, noMetaData} = useContext(DataProvider)
 
     const handleLocationClick = () => {
-        if (lat !== null && lng !== null) {
-            setLat(lat);
-            setLng(lng);
-        }
         if (noMetaData) {
             setNoMetaData(false);
         }
+        setHotSpot(hotSpot)
     }
 
     return (
@@ -29,7 +29,7 @@ export const Marker:FC<MarkerInterface> = ({lat, lng}) => {
                 border: 0,
                 cursor: 'pointer'
             }} onClick={handleLocationClick}>
-                <PlaceIcon/>
+                {hotSpot.isHotSpot ? <LocalFireDepartmentIcon style={{color:'red'}}/> : <PlaceIcon/>}
             </button>
         </div>
     )

@@ -1,16 +1,19 @@
-import {FC, useContext} from 'react';
+import {FC, useContext, useEffect, useState} from 'react';
 import {gridstyle, elementStyle, Props} from '../../Common/styles';
 import {Severity, Status} from '../../Common/types';
 import CloseIcon from '@mui/icons-material/Close';
 import {DataProvider} from '../DataProvider';
 
 const area = {
-    refresh: 'refresh',
-    location: 'location',
     closeButton: 'closeButton',
+    location: 'location',
+    locationVal: 'locationVal',
     date: 'date',
+    dateVal: 'dateVal',
     severity: 'severity',
+    severityVal: 'severityVal',
     status: 'status',
+    statusVal: 'statusVal',
     setStatusModal: 'setStatusModal',
     photos: 'photos',
 }
@@ -22,19 +25,42 @@ const MDTable:React.CSSProperties = {
     padding: '5px',
     gridTemplate: `
     " .                ${area.closeButton}    " 0.10fr
-    " ${area.location} ${area.location}       " 0.10fr
-    " ${area.date}     ${area.date}           " 0.10fr
-    " ${area.severity} ${area.severity}       " 0.10fr
-    " ${area.status}   ${area.setStatusModal} " 0.10fr
-    " ${area.photos} ${area.photos}       " auto
-    / 1fr              0.5fr`
+    " ${area.location} ${area.locationVal}    " 0.10fr
+    " ${area.date}     ${area.dateVal}        " 0.10fr
+    " ${area.severity} ${area.severityVal}    " 0.10fr
+    " ${area.status}   ${area.statusVal}      " 0.10fr
+    " .                ${area.setStatusModal} " 40px
+    " ${area.photos}   ${area.photos}         " auto
+    / 0.5fr            auto`
+}
+
+const textStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'end',
+    alignItems: 'center'
+    
 }
 
 export const MetaDataTable:FC<Props> = ({style}) => {
-    const {setNoMetaData, lat, lng} = useContext(DataProvider);
-    const date = new Date().toISOString().slice(0, 10);
-    const status:Status = Status.NotViewed;
-    const severity:Severity = Severity.NoFire;
+    const {setNoMetaData, hotSpot} = useContext(DataProvider);
+    const [date, setDate] = useState<string>("")
+    const [status, setStatus] = useState<Status>(Status.Undefined)
+    const [severity, setSeverity] = useState<Severity>(Severity.Undefined);
+    const [location, setLocation] = useState<string>("");
+
+    useEffect(() => {
+        if (hotSpot !== null) {
+            setDate(hotSpot.date);
+            setStatus(hotSpot.status);
+            setSeverity(hotSpot.severity);
+            setLocation(`${hotSpot.lat}°, ${hotSpot.lng}°`)
+        } else {
+            setDate("");
+            setStatus(Status.Undefined);
+            setSeverity(Severity.Undefined);
+            setLocation("");
+        }
+    }, [hotSpot])
 
     const onHover = (e: any) => {
         e.target.style.color = 'white'
@@ -58,7 +84,6 @@ export const MetaDataTable:FC<Props> = ({style}) => {
                     justifyContent: 'end',
                     alignContent: 'center',
                     padding: '5px',
-                    
                 }}
             >
                 <button style={{
@@ -72,33 +97,50 @@ export const MetaDataTable:FC<Props> = ({style}) => {
                 </button>
             </div>
             <h2 style={{gridArea: area.location}}>
-                {"Latitude, Longitude: " + lat + ", " + lng}
+                {"Geolocation: "}
             </h2>
+
+            <h3 style={{gridArea: area.locationVal, ...textStyle}}
+            >
+                {location}
+            </h3>
 
             <h2 style={{gridArea: area.date}}>
-                {"Date of Picture: " + date}
+                {"Date: "}
             </h2>
+
+            <h3 style={{gridArea: area.dateVal, ...textStyle}}>
+                {date}
+            </h3>
 
             <h2 style={{gridArea: area.severity}}> 
-                {"Severity of Fire: " + severity}
+                {"Severity: "}
             </h2>
 
+            <h3 style={{gridArea: area.severityVal, ...textStyle}}>
+                {severity}
+            </h3>
+
             <h2 style={{gridArea: area.status}}>
-                {"Status: " + status}
+                {"Status: "}
             </h2>
+
+            <h3 style={{gridArea: area.statusVal, ...textStyle}}>
+                {status}
+            </h3>
+
             <div
                 style={{
                     gridArea: area.setStatusModal,
                     display: 'flex',
                     justifyContent: 'end',
                     alignItems: 'center',
-                    padding: '5px'
                 }}
             >
                 <button 
                     style={{
-                        width: '100%',
-                        height: '65%',
+                        width: '50%',
+                        height: '100%',
                         background: '#22272e',
                         borderRadius: '10px',
                         padding: 0,

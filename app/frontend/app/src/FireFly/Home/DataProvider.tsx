@@ -1,22 +1,28 @@
 import {createContext} from "react";
-
+import {Path, HotSpot} from "../Common/types";
 
 interface DataContext {
-    noMetaData: boolean | null;
-    lat: number | null,
-    lng: number | null,
+    paths: Path[] | null,
+    pathHotSpots: HotSpot[] | null,
+    pathID: number | null,
+    hotSpot: HotSpot | null,
+    noMetaData: boolean | null,
+    setPathID: (val:number | null) => void,
+    setHotSpot: (val: HotSpot | null) => void,
+    setPathHotSpots: (val: HotSpot[] | null) => void,
     setNoMetaData: (val:boolean) => void,
-    setLat: (lat: number) => void,
-    setLng: (lng: number) => void,
 }
 
 const DefaultDataContext: DataContext = {
     noMetaData: null,
-    lat: null,
-    lng: null,
+    paths: null,
+    pathHotSpots: null,
+    pathID: null,
+    hotSpot: null,
+    setPathID: () => null,
+    setHotSpot: () => null,
+    setPathHotSpots: () => null,
     setNoMetaData: () => null,
-    setLat: () => null,
-    setLng: () => null
 }
 
 export const DataProvider = createContext<DataContext>(DefaultDataContext)

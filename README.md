@@ -14,12 +14,12 @@ Map with preview of waypoints.
 Maps preview with waypoints as selectable spots which fills in the side window with the respective data.
 
 Side Window when spot selected:
-- [ ] RGB photo
-- [ ] IR Photo
-- [ ] date, time, location (lat, long)
-- [ ] Severity
+- [X] RGB photo
+- [X] IR Photo
+- [X] date, time, location (lat, long)
+- [X] Severity
 - [ ] Selectable status (confirmation modal) Setting status should change the status on map and metadata table
-- [ ] Status of hotspot (not viewed, viewed, visited, dismissed)
+- [X] Status of hotspot (not viewed, viewed, visited, dismissed)
 
 
 Stretch Goals:

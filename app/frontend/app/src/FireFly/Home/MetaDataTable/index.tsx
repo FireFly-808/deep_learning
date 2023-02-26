@@ -170,6 +170,8 @@ export const MetaDataTable:FC<Props> = ({style}) => {
                         boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
                     }}
                     onChange={changeStatus}
+                    onMouseEnter={onHover}
+                    onMouseLeave={onHoverLeave}
                 >
                     <option value={Status.Undefined}> Select Status </option>
                     <option value={Status.NotViewed}> {Status.NotViewed} </option>

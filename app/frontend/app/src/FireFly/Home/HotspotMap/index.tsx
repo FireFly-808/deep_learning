@@ -89,6 +89,14 @@ export const HotSpotMap:FC<Props> = ({style}) => {
         }
     }, [pathID, setPathHotSpots])
 
+    const onHover = (e: any) => {
+        e.target.style.color = 'white'
+    }
+
+    const onHoverLeave = (e: any) => {
+        e.target.style.color = '#b8b7ad'
+    }
+
     const onPathSelection = (event:any) => {
         const newPathID = Number(event.target.value);
         if (newPathID !== pathID) {
@@ -139,6 +147,8 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                     color: '#b8b7ad',
                     cursor: 'pointer'
                 }}
+                onMouseEnter={onHover}
+                onMouseLeave={onHoverLeave}
                 >
                     <RefreshIcon/>
                 </button>
@@ -160,7 +170,11 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                     width: '80%',
                     height: '60%',
                     boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
-                }} onChange={onPathSelection}>
+                }}
+                onChange={onPathSelection}
+                onMouseEnter={onHover}
+                onMouseLeave={onHoverLeave}
+                >
                     <option value={-1}> Select Path</option>
                     {paths !== null && paths?.map(({id, name}) => (
                         <option value={id}> {name} </option>

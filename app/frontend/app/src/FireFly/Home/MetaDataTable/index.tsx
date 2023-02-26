@@ -6,6 +6,7 @@ import {DataProvider} from '../DataProvider';
 
 const area = {
     closeButton: 'closeButton',
+    confirm: 'confirm',
     location: 'location',
     locationVal: 'locationVal',
     date: 'date',
@@ -24,14 +25,14 @@ const MDTable:React.CSSProperties = {
     borderRadius: '25px',
     padding: '5px',
     gridTemplate: `
-    " .                ${area.closeButton}    " 0.10fr
-    " ${area.location} ${area.locationVal}    " 0.10fr
-    " ${area.date}     ${area.dateVal}        " 0.10fr
-    " ${area.severity} ${area.severityVal}    " 0.10fr
-    " ${area.status}   ${area.statusVal}      " 0.10fr
-    " .                ${area.setStatusModal} " 40px
-    " ${area.photos}   ${area.photos}         " auto
-    / 0.5fr            auto`
+    " .                ${area.closeButton}     ${area.closeButton} " 0.10fr
+    " ${area.location} ${area.locationVal}     ${area.locationVal} " 0.10fr
+    " ${area.date}     ${area.dateVal}         ${area.dateVal}     " 0.10fr
+    " ${area.severity} ${area.severityVal}     ${area.severityVal} " 0.10fr
+    " ${area.status}   ${area.statusVal}       ${area.statusVal}   " 0.10fr
+    " .                ${area.setStatusModal}  ${area.confirm}     " 40px
+    " ${area.photos}   ${area.photos}          ${area.photos}      " auto
+    / 0.5fr            0.25fr                  0.25fr              `
 }
 
 const textStyle: React.CSSProperties = {
@@ -46,6 +47,7 @@ export const MetaDataTable:FC<Props> = ({style}) => {
     const [date, setDate] = useState<string>("")
     const [status, setStatus] = useState<Status>(Status.Undefined)
     const [severity, setSeverity] = useState<Severity>(Severity.Undefined);
+    const [statusFormVal, setstatusFormVal] = useState<Status>(Status.Undefined)
     const [location, setLocation] = useState<string>("");
 
     useEffect(() => {
@@ -68,6 +70,22 @@ export const MetaDataTable:FC<Props> = ({style}) => {
 
     const onHoverLeave = (e: any) => {
         e.target.style.color = '#b8b7ad'
+    }
+
+    const onSubmitHover = (e: any) => {
+        e.target.style.background = 'rgb(40,122,44,1)'
+    }
+
+    const onSubmitHoverLeave = (e: any) => {
+        e.target.style.background = 'rgb(49,52,55)'
+    }
+
+    const changeStatus = (e: any) => {
+        setstatusFormVal(e.target.value);
+    }
+
+    const submitStatus = () => {
+        setStatus(statusFormVal);
     }
 
     return (
@@ -137,18 +155,53 @@ export const MetaDataTable:FC<Props> = ({style}) => {
                     alignItems: 'center',
                 }}
             >
+                <select 
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        background: 'rgb(49,52,55)',
+                        border: 'none',
+                        fontWeight: '500',
+                        borderRadius: '45px',
+                        margin: 4,
+                        textAlign: 'center',
+                        color: '#b8b7ad',
+                        cursor: 'pointer',
+                        boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onChange={changeStatus}
+                >
+                    <option value={Status.Undefined}> Select Status </option>
+                    <option value={Status.NotViewed}> {Status.NotViewed} </option>
+                    <option value={Status.Viewed}> {Status.Viewed} </option>
+                    <option value={Status.Dismissed}> {Status.Dismissed} </option>
+                    <option value={Status.Visited}> {Status.Visited} </option>
+                </select>
+            </div>
+            <div
+                style={{
+                    gridArea: area.confirm,
+                    display: 'flex',
+                    justifyContent: 'end',
+                    alignItems: 'center',
+                }}
+            >
                 <button 
                     style={{
-                        width: '50%',
+                        width: '100%',
                         height: '100%',
-                        background: '#22272e',
-                        borderRadius: '10px',
-                        padding: 0,
+                        background: 'rgb(49,52,55)',
+                        border: 0,
+                        borderRadius: '45px',
+                        margin: 4,
                         color: '#b8b7ad',
                         cursor: 'pointer'
                     }}
+                    onClick={submitStatus}
+                    onMouseEnter={onSubmitHover}
+                    onMouseLeave={onSubmitHoverLeave}
                 >
-                    {"Set Status"}
+                    {"Submit"}
                 </button>
             </div>
             <div

@@ -14,16 +14,16 @@ Map with preview of waypoints.
 Maps preview with waypoints as selectable spots which fills in the side window with the respective data.
 
 Side Window when spot selected:
-- [ ] RGB photo
-- [ ] IR Photo
-- [ ] date, time, location (lat, long)
-- [ ] Severity
+- [X] RGB photo
+- [X] IR Photo
+- [X] date, time, location (lat, long)
+- [X] Severity
 - [ ] Selectable status (confirmation modal) Setting status should change the status on map and metadata table
-- [ ] Status of hotspot (not viewed, viewed, visited, dismissed)
+- [X] Status of hotspot (not viewed, viewed, visited, dismissed)
 
 
 Stretch Goals:
-- [ ] Make the side window dynamic rather than static
+- [x] Make the side window dynamic rather than static
 - [ ] Get waypoints for a specific time period (specified dates)
 
 # <u> Backend: </u>
@@ -36,7 +36,7 @@ Application running on AWS that has 2 endpoints:
 - [x] Setup docker and database
 - [x] Make models for db tables
 - [x] Make endpoint add_record (drone->server)
-- [ ] Make endpoint get_list_of_locations (webapp->server)
+- [x] Make endpoint get_list_of_locations (webapp->server)
 - [ ] Make endpoint get_record_details (webapp->server)
 - [ ] Make endpoint update_status (webapp->server)
 - [ ] Deploy to aws/gcp

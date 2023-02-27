@@ -1,4 +1,4 @@
-import {FC, useContext, useEffect} from 'react';
+import {FC, useContext, useEffect, useState, useRef} from 'react';
 import {Props, gridstyle} from '../../Common/styles';
 import {DataProvider} from '../DataProvider';
 import GoogleMapReact from 'google-map-react';
@@ -70,15 +70,15 @@ const waterlooHotSpots: HotSpot[] = [
         severity: Severity.NoFire,
         status: Status.NotViewed
     }, 
-]
+]    
 
 
 export const HotSpotMap:FC<Props> = ({style}) => {
 
     // 
     const apiKey = "AIzaSyAMBFWt_-_0DA-w8Qkaj2SlTzPSGLg876I";
+    const mapsRef = useRef(null);
     const {pathHotSpots, paths, setPathID, pathID, setPathHotSpots, setHotSpot} = useContext(DataProvider);
-
 
     // GET REQUEST: to get the hotspots for the path selected
     useEffect(() => {
@@ -86,8 +86,18 @@ export const HotSpotMap:FC<Props> = ({style}) => {
             setPathHotSpots(torontoHotSpots);
         } else if (pathID === 2) {
             setPathHotSpots(waterlooHotSpots);
+        } else {
+            setPathHotSpots(null)
         }
-    }, [pathID])
+    }, [pathID, setPathHotSpots])
+
+    const onHover = (e: any) => {
+        e.target.style.color = 'white'
+    }
+
+    const onHoverLeave = (e: any) => {
+        e.target.style.color = '#b8b7ad'
+    }
 
     const onPathSelection = (event:any) => {
         const newPathID = Number(event.target.value);
@@ -97,6 +107,10 @@ export const HotSpotMap:FC<Props> = ({style}) => {
         }
     }
 
+    // Get request to get all new hotspot data
+    const refreshCallback = () => {
+        console.log("refresh")
+    }
 
     let defaultProps:GoogleMapsPos = {
         center: {
@@ -140,6 +154,9 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                     color: '#b8b7ad',
                     cursor: 'pointer'
                 }}
+                onMouseEnter={onHover}
+                onMouseLeave={onHoverLeave}
+                onClick={refreshCallback}
                 >
                     <RefreshIcon/>
                 </button>
@@ -151,11 +168,28 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                 alignItems: 'end',
                 margin: '10px'
             }}>
-                <select onChange={onPathSelection}>
+                <select style={{
+                    background: 'rgb(49,52,55)',
+                    borderRadius: '45px',
+                    color: '#b8b7ad',
+                    cursor: 'pointer',
+                    border: 0,
+                    textAlign: 'center',
+                    width: '80%',
+                    height: '90%',
+                    boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+                }}
+                onChange={onPathSelection}
+                onMouseEnter={onHover}
+                onMouseLeave={onHoverLeave}
+                >
                     <option value={-1}> Select Path</option>
-                    {paths !== null && paths?.map(({id, name}) => (
-                        <option value={id}> {name} </option>
-                    ))}
+                    {paths !== null && paths?.map(({id, name}) => {
+                        if (id === pathID) {
+                            return <option value={id} selected> {name} </option>
+                        }
+                        return <option value={id}> {name} </option>
+                    })}
                 </select>
             </div>
             <div
@@ -167,9 +201,10 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                 }}
             >
                 <GoogleMapReact
+                    ref={mapsRef}
                     bootstrapURLKeys={{key: apiKey}}
-                    defaultCenter={defaultProps.center}
-                    defaultZoom={defaultProps.zoom}
+                    center={defaultProps.center}
+                    zoom={defaultProps.zoom}
                 >
                     {pathHotSpots !== null && pathHotSpots.map((hotSpot) => (
                         <Marker lat={hotSpot.lat} lng={hotSpot.lng} hotSpot={hotSpot}/>

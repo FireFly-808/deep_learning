@@ -32,13 +32,13 @@ Application running on AWS that has 2 endpoints:
 1) receive image, save, process, and log in database (called by rpi on drone)
 2) give image from db (called by client app)
 
-### <b> Steps </B>:
+### <b> Goals </B>:
 - [x] Setup docker and database
 - [x] Make models for db tables
 - [x] Make endpoint add_record (drone->server)
 - [x] Make endpoint get_list_of_locations (webapp->server)
-- [ ] Make endpoint get_record_details (webapp->server)
-- [ ] Make endpoint update_status (webapp->server)
+- [x] Make endpoint get_record_details (webapp->server)
+- [x] Make endpoint update_status (webapp->server)
 - [ ] Deploy to aws/gcp
 
 

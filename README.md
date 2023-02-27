@@ -37,8 +37,8 @@ Application running on AWS that has 2 endpoints:
 - [x] Make models for db tables
 - [x] Make endpoint add_record (drone->server)
 - [x] Make endpoint get_list_of_locations (webapp->server)
-- [x] Make endpoint get_record_details (webapp->server)
-- [x] Make endpoint update_status (webapp->server)
+- [ ] Make endpoint get_record_details (webapp->server)
+- [ ] Make endpoint update_status (webapp->server)
 - [ ] Deploy to aws/gcp
 
 

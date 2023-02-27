@@ -86,6 +86,8 @@ export const HotSpotMap:FC<Props> = ({style}) => {
             setPathHotSpots(torontoHotSpots);
         } else if (pathID === 2) {
             setPathHotSpots(waterlooHotSpots);
+        } else {
+            setPathHotSpots(null)
         }
     }, [pathID, setPathHotSpots])
 
@@ -103,6 +105,11 @@ export const HotSpotMap:FC<Props> = ({style}) => {
             setPathID(newPathID);
             setHotSpot(null);
         }
+    }
+
+    // Get request to get all new hotspot data
+    const refreshCallback = () => {
+        console.log("refresh")
     }
 
     let defaultProps:GoogleMapsPos = {
@@ -149,6 +156,7 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                 }}
                 onMouseEnter={onHover}
                 onMouseLeave={onHoverLeave}
+                onClick={refreshCallback}
                 >
                     <RefreshIcon/>
                 </button>
@@ -168,7 +176,7 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                     border: 0,
                     textAlign: 'center',
                     width: '80%',
-                    height: '60%',
+                    height: '90%',
                     boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
                 }}
                 onChange={onPathSelection}
@@ -176,9 +184,12 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                 onMouseLeave={onHoverLeave}
                 >
                     <option value={-1}> Select Path</option>
-                    {paths !== null && paths?.map(({id, name}) => (
-                        <option value={id}> {name} </option>
-                    ))}
+                    {paths !== null && paths?.map(({id, name}) => {
+                        if (id === pathID) {
+                            return <option value={id} selected> {name} </option>
+                        }
+                        return <option value={id}> {name} </option>
+                    })}
                 </select>
             </div>
             <div

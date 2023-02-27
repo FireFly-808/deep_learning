@@ -55,7 +55,7 @@ export const MetaDataTable:FC<Props> = ({style}) => {
             setDate(hotSpot.date);
             setStatus(hotSpot.status);
             setSeverity(hotSpot.severity);
-            setLocation(`${hotSpot.lat}°, ${hotSpot.lng}°`)
+            setLocation(`${hotSpot.lat.toFixed(4)}°, ${hotSpot.lng.toFixed(4)}°`)
         } else {
             setDate("");
             setStatus(Status.Undefined);
@@ -84,8 +84,11 @@ export const MetaDataTable:FC<Props> = ({style}) => {
         setstatusFormVal(e.target.value);
     }
 
+    // POST request to set status in db
     const submitStatus = () => {
-        setStatus(statusFormVal);
+        if (hotSpot !== null) {
+            setStatus(statusFormVal);
+        }
     }
 
     return (

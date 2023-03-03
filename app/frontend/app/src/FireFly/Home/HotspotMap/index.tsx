@@ -34,7 +34,7 @@ interface GoogleMapsPos {
 
 export const HotSpotMap:FC<Props> = ({style}) => {
     
-    const apiKey = "AIzaSyAMBFWt_-_0DA-w8Qkaj2SlTzPSGLg876I";
+    const apiKey = process.env.REACT_APP_MAPS_KEY;
     const {pathHotSpots, paths, setPathID, pathID, setPathHotSpots, setHotSpot} = useContext(DataProvider);
 
     // Default center of google maps if path is not selected
@@ -176,7 +176,7 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                 }}
             >
                 <GoogleMapReact
-                    bootstrapURLKeys={{key: apiKey}}
+                    bootstrapURLKeys={{key: typeof apiKey !== 'undefined' ? apiKey : ""}}
                     center={defaultProps.center}
                     zoom={defaultProps.zoom}
                 >

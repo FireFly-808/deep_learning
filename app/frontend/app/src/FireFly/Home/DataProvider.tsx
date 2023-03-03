@@ -1,6 +1,7 @@
 import {createContext} from "react";
 import {Path, HotSpot} from "../Common/types";
 
+// Context that holds data and hooks needed by metadata table and hotspot map
 interface DataContext {
     paths: Path[] | null,
     pathHotSpots: HotSpot[] | null,

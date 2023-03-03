@@ -44,7 +44,7 @@ export const Header: FC<Props> = ({style}) => {
                     width: '60%',
                     height: '75%',
                     gridArea:area.logo
-                    }} src={'temp-logo.jpg'} alt=''/>
+                    }} src={'firefly-logo.jpg'} alt=''/>
             </div>
         </div>
     )

@@ -3,7 +3,6 @@ import PlaceIcon from '@mui/icons-material/Place';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import {DataProvider} from "../DataProvider";
 import {HotSpot} from '../../Common/types';
-import { Box } from '@mui/material';
 
 interface MarkerProps {
     lat: number,
@@ -13,9 +12,13 @@ interface MarkerProps {
 
 export const Marker:FC<MarkerProps> = ({lat, lng, hotSpot}) => {
 
-    const {setNoMetaData, setHotSpot, noMetaData} = useContext(DataProvider)
+    // Get requried hooks from data provider
+    const {setNoMetaData, setHotSpot, noMetaData} = useContext(DataProvider);
+
+    // state to display hover information
     const [hoverOn, setHoverOn] = useState<boolean>(false);
 
+    // Open up metadata with this selected hotspot data
     const handleLocationClick = () => {
         if (noMetaData) {
             setNoMetaData(false);
@@ -24,7 +27,6 @@ export const Marker:FC<MarkerProps> = ({lat, lng, hotSpot}) => {
     }
 
     const location = `Geolocation: ${hotSpot.lat.toFixed(3)}°, ${hotSpot.lng.toFixed(3)}°`;
-    const severity = `Severity: ${hotSpot.severity}`;
     const status = `Status: ${hotSpot.status}`;
 
     return (
@@ -39,12 +41,13 @@ export const Marker:FC<MarkerProps> = ({lat, lng, hotSpot}) => {
             onMouseEnter={() => setHoverOn(true)}
             onMouseLeave={() => setHoverOn(false)}
             >
-                {hotSpot.isHotSpot ? <LocalFireDepartmentIcon style={{color:'red'}}/> : <PlaceIcon/>}
+                {hotSpot.is_hotspot ? <LocalFireDepartmentIcon style={{color:'red'}}/> : <PlaceIcon/>}
             </button>
             {hoverOn && 
                 <div style={{
                     width: '180px',
-                    height: '50px',
+                    height: '30px',
+                    backgroundColor: 'beige',
                     margin: 0,
                     padding: 0,
                     border: '2px solid black',
@@ -52,7 +55,6 @@ export const Marker:FC<MarkerProps> = ({lat, lng, hotSpot}) => {
                 >
                     <text style={{color:'black', fontWeight: 'bold'}}>
                         {location}<br/>
-                        {severity}<br/>
                         {status}<br/>
                     </text>
                 </div>}

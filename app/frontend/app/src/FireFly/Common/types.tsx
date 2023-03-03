@@ -1,7 +1,7 @@
 export enum Status {
     Dismissed = "Dismissed",
     Viewed = "Viewed",
-    Visited = "Visisted",
+    Visited = "Visited",
     NotViewed = "Not viewed",
     Undefined = "",
 }

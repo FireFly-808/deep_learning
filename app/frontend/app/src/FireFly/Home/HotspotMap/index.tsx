@@ -5,7 +5,7 @@ import GoogleMapReact from 'google-map-react';
 import {Marker} from './Marker';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {isHotSpotArray} from '../../Common/types';
-import {onHover, onHoverLeave} from '../../Common/button';
+import {changeColor} from '../../Common/button';
 
 const area = {
     pathSelection: 'pathSelection',
@@ -82,7 +82,7 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                 setPathHotSpots(newHotSpots);
             }
         })
-    })
+    },[pathID, setPathHotSpots])
 
     // Refresh button callback
     const refreshCallback = () => {
@@ -129,8 +129,8 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                     color: '#b8b7ad',
                     cursor: 'pointer'
                 }}
-                onMouseEnter={onHover}
-                onMouseLeave={onHoverLeave}
+                onMouseEnter={e => changeColor(e, 'white')} 
+                onMouseLeave={e => changeColor(e, '#b8b7ad')}
                 onClick={refreshCallback}
                 >
                     <RefreshIcon/>
@@ -155,8 +155,8 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                     boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
                 }}
                 onChange={onPathSelection}
-                onMouseEnter={onHover}
-                onMouseLeave={onHoverLeave}
+                onMouseEnter={e => changeColor(e, 'white')} 
+                onMouseLeave={e => changeColor(e, '#b8b7ad')}
                 >
                     <option value={-1}> Select Path</option>
                     {paths !== null && paths?.map(({id, name}) => {

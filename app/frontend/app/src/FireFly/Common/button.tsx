@@ -1,8 +1,8 @@
-// Hover callbacks for the refresh and 
-export const onHover = (e: any) => {
-    e.target.style.color = 'white'
+// Change button color.
+export const changeColor = (e: any, color:string) => {
+    e.target.style.color = color
 }
 
-export const onHoverLeave = (e: any) => {
-    e.target.style.color = '#b8b7ad'
+export const changeBackground = (e: any, color:string) => {
+    e.target.style.background = color
 }

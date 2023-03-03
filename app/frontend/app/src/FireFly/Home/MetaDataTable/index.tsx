@@ -1,6 +1,6 @@
 import {FC, useContext, useEffect, useState} from 'react';
 import {gridstyle, elementStyle, Props} from '../../Common/styles';
-import {Severity, Status} from '../../Common/types';
+import {Status} from '../../Common/types';
 import CloseIcon from '@mui/icons-material/Close';
 import {DataProvider} from '../DataProvider';
 
@@ -28,7 +28,6 @@ const MDTable:React.CSSProperties = {
     " .                ${area.closeButton}     ${area.closeButton} " 0.10fr
     " ${area.location} ${area.locationVal}     ${area.locationVal} " 0.10fr
     " ${area.date}     ${area.dateVal}         ${area.dateVal}     " 0.10fr
-    " ${area.severity} ${area.severityVal}     ${area.severityVal} " 0.10fr
     " ${area.status}   ${area.statusVal}       ${area.statusVal}   " 0.10fr
     " .                ${area.setStatusModal}  ${area.confirm}     " 40px
     " ${area.photos}   ${area.photos}          ${area.photos}      " auto
@@ -46,7 +45,6 @@ export const MetaDataTable:FC<Props> = ({style}) => {
     const {setNoMetaData, hotSpot} = useContext(DataProvider);
     const [date, setDate] = useState<string>("")
     const [status, setStatus] = useState<Status>(Status.Undefined)
-    const [severity, setSeverity] = useState<Severity>(Severity.Undefined);
     const [statusFormVal, setstatusFormVal] = useState<Status>(Status.Undefined)
     const [location, setLocation] = useState<string>("");
 
@@ -54,12 +52,10 @@ export const MetaDataTable:FC<Props> = ({style}) => {
         if (hotSpot !== null) {
             setDate(hotSpot.date);
             setStatus(hotSpot.status);
-            setSeverity(hotSpot.severity);
             setLocation(`${hotSpot.lat.toFixed(4)}°, ${hotSpot.lng.toFixed(4)}°`)
         } else {
             setDate("");
             setStatus(Status.Undefined);
-            setSeverity(Severity.Undefined);
             setLocation("");
         }
     }, [hotSpot])
@@ -133,15 +129,7 @@ export const MetaDataTable:FC<Props> = ({style}) => {
             <h3 style={{gridArea: area.dateVal, ...textStyle}}>
                 {date}
             </h3>
-
-            <h2 style={{gridArea: area.severity}}> 
-                {"Severity: "}
-            </h2>
-
-            <h3 style={{gridArea: area.severityVal, ...textStyle}}>
-                {severity}
-            </h3>
-
+            
             <h2 style={{gridArea: area.status}}>
                 {"Status: "}
             </h2>

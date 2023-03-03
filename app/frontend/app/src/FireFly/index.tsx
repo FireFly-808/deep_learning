@@ -19,7 +19,7 @@ const style:React.CSSProperties = {
     margin: 0,
     padding: 0,
     border: 0,
-    background: '#22272e',
+    background: '#282828',
     color: '#b8b7ad',
     gridTemplate: `
     " ${area.header} " 0.05fr

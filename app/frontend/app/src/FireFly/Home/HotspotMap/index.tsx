@@ -1,10 +1,11 @@
-import {FC, useContext, useEffect, useState, useRef} from 'react';
+import {FC, useContext, useEffect} from 'react';
 import {Props, gridstyle} from '../../Common/styles';
 import {DataProvider} from '../DataProvider';
 import GoogleMapReact from 'google-map-react';
 import {Marker} from './Marker';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Severity, Status, HotSpot } from '../../Common/types';
+import {isHotSpotArray} from '../../Common/types';
+import {onHover, onHoverLeave} from '../../Common/button';
 
 const area = {
     pathSelection: 'pathSelection',
@@ -21,6 +22,7 @@ const MapStyle:React.CSSProperties = {
     / auto        0.20fr                0.10fr`
 }
 
+// Custom interface to determine default view of google maps
 interface GoogleMapsPos {
     center: {
         lat: number,
@@ -29,105 +31,78 @@ interface GoogleMapsPos {
     zoom:number
 }
 
-const torontoHotSpots: HotSpot[] = [
-    {
-        id: 1,
-        pathID: 1,
-        lat: 43.70954790,
-        lng: -79.47999730,
-        date: new Date().toISOString().slice(0, 10),
-        irPath: 'dummy',
-        rbgPath: 'dummy',
-        isHotSpot: true,
-        severity: Severity.Fire,
-        status: Status.NotViewed
-    }, 
-    {
-        id: 2,
-        pathID: 1,
-        lat:  43.70952730,
-        lng: -79.48999860,
-        date: new Date().toISOString().slice(0, 10),
-        irPath: 'dummy',
-        rbgPath: 'dummy',
-        isHotSpot: false,
-        severity: Severity.NoFire,
-        status: Status.NotViewed
-    }, 
-]
-
-
-const waterlooHotSpots: HotSpot[] = [
-    {
-        id: 3,
-        pathID: 2,
-        lat:  43.4680,
-        lng: -80.5373,
-        date: new Date().toISOString().slice(0, 10),
-        irPath: 'dummy',
-        rbgPath: 'dummy',
-        isHotSpot: false,
-        severity: Severity.NoFire,
-        status: Status.NotViewed
-    }, 
-]    
-
 
 export const HotSpotMap:FC<Props> = ({style}) => {
-
-    // 
+    
     const apiKey = "AIzaSyAMBFWt_-_0DA-w8Qkaj2SlTzPSGLg876I";
-    const mapsRef = useRef(null);
     const {pathHotSpots, paths, setPathID, pathID, setPathHotSpots, setHotSpot} = useContext(DataProvider);
 
-    // GET REQUEST: to get the hotspots for the path selected
-    useEffect(() => {
-        if (pathID === 1) {
-            setPathHotSpots(torontoHotSpots);
-        } else if (pathID === 2) {
-            setPathHotSpots(waterlooHotSpots);
-        } else {
-            setPathHotSpots(null)
-        }
-    }, [pathID, setPathHotSpots])
-
-    const onHover = (e: any) => {
-        e.target.style.color = 'white'
-    }
-
-    const onHoverLeave = (e: any) => {
-        e.target.style.color = '#b8b7ad'
-    }
-
-    const onPathSelection = (event:any) => {
-        const newPathID = Number(event.target.value);
-        if (newPathID !== pathID) {
-            setPathID(newPathID);
-            setHotSpot(null);
-        }
-    }
-
-    // Get request to get all new hotspot data
-    const refreshCallback = () => {
-        console.log("refresh")
-    }
-
+    // Default center of google maps if path is not selected
     let defaultProps:GoogleMapsPos = {
         center: {
         lat: 43.70954790,
         lng: -79.45999730
         },
-        zoom: 14
+        zoom: 13
     };
 
+    // If path is selected, center google maps around the first hotspot
     if (pathHotSpots !== null && pathHotSpots.length > 0) {
         defaultProps = {
             center: {
             lat: pathHotSpots[0].lat,
             lng: pathHotSpots[0].lng
             },
-            zoom: 14
+            zoom: 13
         };    
+    }
+
+    // Get request to get all new hotspot data
+    const getPathHotSpots = async () => {
+        if (pathID !== null) {
+            const endpoint = `http://127.0.0.1:8000/api/server/get_locations_data_by_path/?path_id=${pathID}`
+            const data = await(await fetch(endpoint)).json()
+            
+            // Use typeguard to check if data is a valid response
+            if (isHotSpotArray(data)) {
+                return data;
+            } else {
+                return null;
+            }
+        }
+    }
+
+    // Runs everytime component rerenders
+    useEffect(() => {
+        getPathHotSpots()
+        .then((newHotSpots) => {
+            if (typeof newHotSpots === 'undefined' || newHotSpots === null) {
+                setPathHotSpots(null);
+            } else {
+                setPathHotSpots(newHotSpots);
+            }
+        })
+    })
+
+    // Refresh button callback
+    const refreshCallback = () => {
+        getPathHotSpots()
+        .then((newHotSpots) => {
+            if (typeof newHotSpots === 'undefined' || newHotSpots === null) {
+                setPathHotSpots(null);
+            } else {
+                setPathHotSpots(newHotSpots);
+            }
+        })
+    }
+
+    // On selecting a path from the drop down button menu, change the pathID & reset selected hotspot.
+    const onPathSelection = (event:any) => {
+        const newPathID = Number(event.target.value);
+        if (newPathID !== pathID) {
+            setPathID(newPathID);
+            setHotSpot(null);
+        }
     }
 
     return (
@@ -201,7 +176,6 @@ export const HotSpotMap:FC<Props> = ({style}) => {
                 }}
             >
                 <GoogleMapReact
-                    ref={mapsRef}
                     bootstrapURLKeys={{key: apiKey}}
                     center={defaultProps.center}
                     zoom={defaultProps.zoom}

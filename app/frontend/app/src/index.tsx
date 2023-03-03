@@ -7,7 +7,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 const App = () => {
-  document.body.style.backgroundColor = "#22272e";
+  document.body.style.backgroundColor = "#282828";
   document.body.style.margin = "0";
   return (
       <FireFly/>

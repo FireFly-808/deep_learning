@@ -1,28 +1,8 @@
-import {FC, useState, useEffect} from 'react';
-import {gridstyle, Props} from '../Common/styles';
+import {FC, useState} from 'react';
+import {Props} from '../Common/styles';
 import {DataProvider} from './DataProvider';
 import {Path, HotSpot} from '../Common/types'
 import {FireData} from './FireData';
-
-const area = {
-    map: 'map',
-    metadata: 'metadata',
-};
-
-const defaultStyle:React.CSSProperties = {
-    ...gridstyle,
-    gridTemplate: `
-    " ${area.map} ${area.map} " auto
-    / 0.4fr       1fr `
-};
-
-const metaDataStyle:React.CSSProperties = {
-    ...gridstyle,
-    gridTemplate: `
-    " ${area.metadata} ${area.map} " auto
-    / 0.4fr       1fr `
-};
-
 
 export const Home:FC<Props> = ({style}) => {
 

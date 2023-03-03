@@ -18,13 +18,12 @@ Side Window when spot selected:
 - [X] IR Photo
 - [X] date, time, location (lat, long)
 - [X] Severity
-- [ ] Selectable status (confirmation modal) Setting status should change the status on map and metadata table
+- [x] Selectable status (confirmation modal) Setting status should change the status on map and metadata table
 - [X] Status of hotspot (not viewed, viewed, visited, dismissed)
 
 
 Stretch Goals:
 - [x] Make the side window dynamic rather than static
-- [ ] Get waypoints for a specific time period (specified dates)
 
 # <u> Backend: </u>
 

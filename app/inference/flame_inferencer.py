@@ -11,6 +11,8 @@ from utils import (
     send_classification,
 )
 
+INTERVAL = 5
+
 DEBUG = bool(int(os.environ.get('DEBUG',1)))
 
 AWS_SERVER = 'http://ec2-3-219-240-142.compute-1.amazonaws.com'
@@ -38,6 +40,7 @@ class FlameInferencer:
 
         if not self.model:
             print("MODEL NOT LOADED !!!!!!!!!!!!!!!!!!!!!!!!!")
+            
         self.model.eval()
         self.model.to(self.device)
         print("MODEL LOADED ===============================")
@@ -47,6 +50,7 @@ class FlameInferencer:
         res = requests.get(GET_RECORDS_URL)
         records = res.json()
         if len(records) == 0:
+            print(f"no unclassified records received, sleeping for {INTERVAL} seconds")
             return
                 
         if DEBUG: start_time = time.time()
@@ -69,6 +73,7 @@ class FlameInferencer:
             url = build_sending_url(record['id'])
             send_classification(url,masked_image,is_hotspot)
 
+        print(f"Classified {len(records)} records")
         if DEBUG: end_time = time.time
         if DEBUG: print(f"Average Time taken for inference per image: {(end_time - start_time) / len(records)}")
 
@@ -78,4 +83,4 @@ if __name__ == "__main__":
 
     while True:
         f1.run_inference()
-        time.sleep(60)
+        time.sleep(INTERVAL)

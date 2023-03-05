@@ -23,7 +23,7 @@ RUN python -m venv /py && \
     --no-create-home \
     fireflyteam
 
-ENV PATH="/scripts:/py/bin:$PATH"
+ENV PATH="/py/bin:$PATH"
 
 USER fireflyteam
 

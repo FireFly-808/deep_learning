@@ -1,6 +1,5 @@
 import torch
 import time
-import matplotlib.pyplot as plt
 import os
 import requests
 
@@ -25,16 +24,23 @@ def build_sending_url(id):
     return SERVER + f'/api/server/records/{id}/send_classification/'
 
 class FlameInferencer:
+
     def __init__(self):
         # Load the model
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print("init")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model_file = "../weights/FLAME-Unet-Mobilenet-AdamW-class2-epoch15-batch3.pt"
-        if device == "cuda":
-            model = torch.load(model_file)
+        self.model = None
+        if self.device == "cuda":
+            self.model = torch.load(model_file)
         else:
-            model = torch.load(model_file, map_location=torch.device("cpu"))
-        model.eval()
-        model.to(device)
+            self.model = torch.load(model_file, map_location=torch.device("cpu"))
+
+        if not self.model:
+            print("MODEL NOT LOADED !!!!!!!!!!!!!!!!!!!!!!!!!")
+        self.model.eval()
+        self.model.to(self.device)
+        print("MODEL LOADED ===============================")
 
     def run_inference(self):
         # Get the unclassified records

@@ -5,6 +5,9 @@ import numpy as np
 from typing import Tuple
 from torchvision import transforms as T
 
+import requests
+import io
+from PIL import Image
 
 def pad_numpy_img_till_dims_by_32(img):
     """
@@ -50,6 +53,21 @@ def load_img_from_path(file_path, BGR2RGB=True):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return img
 
+def load_img_from_url(file_url, BGR2RGB=True):
+    """
+    > It takes a file url to an image and returns the image as a numpy array.
+
+    :param file_path: The file url to the image
+    :return: The image as a numpy array
+    """
+    res = requests.get(file_url)
+    assert res.status_code == 200
+    image_data = np.frombuffer(res.content, np.uint8)
+    img = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+    if BGR2RGB:
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return img
+
 
 def inference_flame_model(
     model, device, image, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
@@ -77,6 +95,14 @@ def inference_flame_model(
 
 
 def overlay_mask_on_image(rgb_img, binary_mask):
+    """
+    It takes an RGB image and a binary mask, and returns an RGB image where the mask is overlaid on the
+    image
+    
+    :param rgb_img: the image we want to overlay the mask on
+    :param binary_mask: The binary mask that we want to overlay on the image
+    :return: The output_visual is being returned.
+    """
     # convert the binary mask to an rgb mask
     rgb_mask = np.zeros((binary_mask.shape[0], binary_mask.shape[1], 3))
     rgb_mask[binary_mask == 1] = [255, 0, 0]
@@ -86,3 +112,30 @@ def overlay_mask_on_image(rgb_img, binary_mask):
     )
 
     return output_visual
+
+def send_classification(url, masked_image, is_hotspot):
+    """
+    It takes a masked image, and a boolean value indicating whether the image is a hotspot or not, and
+    sends it to the endpoint
+    
+    :param url: the URL of the endpoint to send the classification to
+    :param masked_image: the image that was masked
+    :param is_hotspot: True or False
+    """
+
+    img_masked = img_ir = Image.fromarray(masked_image, mode="RGB")
+    buffer = io.BytesIO()
+    img_masked.save(buffer, format='PNG')
+    masked_image_file = ("image_masked.png", buffer.getvalue())
+
+    # create the payloads
+    data = {
+        "is_hotspot": is_hotspot
+    }
+    files = {
+        "masked_image": masked_image_file,
+    }
+
+    # make the POST request with the payload
+    res = requests.post(url, data=data, files=files)
+    return res

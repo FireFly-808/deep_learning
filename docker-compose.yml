@@ -4,3 +4,5 @@ services:
     build:
       context: .
     restart: always
+    environment:
+      - DEBUG=1

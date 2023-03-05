@@ -23,7 +23,8 @@ RUN python -m venv /py && \
     --no-create-home \
     fireflyteam
 
-
 ENV PATH="/scripts:/py/bin:$PATH"
 
 USER fireflyteam
+
+CMD ["python /inference/flame_inferencer.py"]

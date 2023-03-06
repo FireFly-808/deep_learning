@@ -18,7 +18,6 @@ from utils_for_fusion import (
     inference_rgb_ir_frames,
     fuse_rgb_thermal_labels,
     _add_image_text,
-    _c_to_f,
     _process_raw_image,
 )
 

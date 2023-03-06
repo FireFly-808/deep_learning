@@ -59,15 +59,15 @@ def fuse_rgb_thermal_labels(rgb_label, ir_label):
     elif rgb_label == "NN" and ir_label == "YN":
         return "YN"
     elif rgb_label == "NN" and ir_label == "YY":
-        return "YY"
-    elif rgb_label == "YN" and ir_label == "NN":
         return "YN"
+    elif rgb_label == "YN" and ir_label == "NN":
+        return "NN"
     elif rgb_label == "YN" and ir_label == "YN":
         return "YN"
     elif rgb_label == "YN" and ir_label == "YY":
-        return "YY"
+        return "YN"
     elif rgb_label == "YY" and ir_label == "NN":
-        return "YY"
+        return "NY"
     elif rgb_label == "YY" and ir_label == "YN":
         return "YY"
     elif rgb_label == "YY" and ir_label == "YY":

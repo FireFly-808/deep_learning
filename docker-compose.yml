@@ -11,4 +11,4 @@ services:
     environment:
       - DEBUG=0
     # command: tail -F anything
-    command: sh -c "python flame_inferencer.py"
+    command: sh -c "python fused_inferencer.py"

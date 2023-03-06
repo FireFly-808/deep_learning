@@ -106,7 +106,8 @@ class FusedInferencer:
         for record in records:
             # Inference and visualize a single image from the retrieved list of records
             rgb_url = SERVER + record["image_rgb"]
-            og_rgb_img = Image.fromarray(load_img_from_url(rgb_url))
+
+            og_rgb_img = load_img_from_url(rgb_url)
             og_ir_img = load_img_from_url(SERVER + record["image_ir"])
 
             processed_ir_image = _process_raw_image(og_ir_img, 0, 0, filter_image=False)
@@ -114,25 +115,17 @@ class FusedInferencer:
             _temp_max = np.max(og_ir_img)
             processed_ir_image = cv2.cvtColor(processed_ir_image, cv2.COLOR_BGR2RGB)
 
+            padded_rgb_img = pad_numpy_img_till_dims_by_32(og_rgb_img)
+
             rgb_label, ir_label = inference_rgb_ir_frames(
                 self.rgb_model,
                 self.thermal_model,
                 self.data_transforms,
                 self.class_names,
-                og_rgb_img,
+                Image.fromarray(og_rgb_img),
                 Image.fromarray(processed_ir_image),
             )
 
-            rgb_img = pad_numpy_img_till_dims_by_32(og_rgb_img)
-
-            rgb_label, ir_label = inference_rgb_ir_frames(
-                self.rgb_model,
-                self.thermal_model,
-                self.data_transforms,
-                self.class_names,
-                rgb_img,
-                og_ir_img,
-            )
             fused_label = fuse_rgb_thermal_labels(rgb_label, ir_label)
 
             if fused_label == "YY" or fused_label == "YN":
@@ -141,7 +134,9 @@ class FusedInferencer:
                 is_hotspot = False
 
             # segmentation
-            pred_mask = inference_flame_model(self.model, self.device, rgb_img)
+            pred_mask = inference_flame_model(
+                self.seg_model, self.device, padded_rgb_img
+            )
             pred_mask = pred_mask.numpy()
 
             # crop the seg mask to the original image size
@@ -162,9 +157,9 @@ class FusedInferencer:
                 url, masked_image, processed_ir_image, is_hotspot
             )
 
+        print(f"Classified {len(records)} records")
         if DEBUG:
             end_time = time.time
-            print(f"Classified {len(records)} records")
             print(
                 f"Average Time taken for inference per image: {(end_time - start_time) / len(records)}"
             )

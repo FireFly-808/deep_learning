@@ -123,17 +123,16 @@ def send_classification(url, masked_image, is_hotspot):
     :param is_hotspot: True or False
     """
 
-    img_masked = img_ir = Image.fromarray(masked_image, mode="RGB")
+    img_masked = Image.fromarray(masked_image, mode="RGB")
     buffer = io.BytesIO()
     img_masked.save(buffer, format='PNG')
     masked_image_file = ("image_masked.png", buffer.getvalue())
-
     # create the payloads
     data = {
         "is_hotspot": is_hotspot
     }
     files = {
-        "masked_image": masked_image_file,
+        "image_masked": masked_image_file,
     }
 
     # make the POST request with the payload

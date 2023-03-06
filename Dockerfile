@@ -12,7 +12,7 @@ COPY ./app /app
 WORKDIR /app/inference
 
 # define container port to access the container
-EXPOSE 8000
+EXPOSE 8001
 
 # run a command when the alpine image is building
 RUN python -m venv /py && \

@@ -17,6 +17,7 @@ DEBUG = bool(int(os.environ.get('DEBUG',1)))
 
 AWS_SERVER = 'http://ec2-3-219-240-142.compute-1.amazonaws.com'
 LOCALHOST = 'http://127.0.0.1:8000'
+# LOCALHOST = 'http://app:8000'
 
 SERVER = LOCALHOST if DEBUG else AWS_SERVER
 
@@ -40,7 +41,7 @@ class FlameInferencer:
 
         if not self.model:
             print("MODEL NOT LOADED !!!!!!!!!!!!!!!!!!!!!!!!!")
-            
+
         self.model.eval()
         self.model.to(self.device)
         print("MODEL LOADED ===============================")
@@ -59,6 +60,7 @@ class FlameInferencer:
             # Inference and visualize a single image from the retrieved list of records
             url = SERVER + record['image_rgb']
             og_img = load_img_from_url(url)
+
             img = pad_numpy_img_till_dims_by_32(og_img)
 
             pred_mask = inference_flame_model(self.model, self.device, img)

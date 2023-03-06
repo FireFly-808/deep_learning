@@ -119,7 +119,7 @@ class FusedInferencer:
                 self.thermal_model,
                 self.data_transforms,
                 self.class_names,
-                rgb_img,
+                og_rgb_img,
                 Image.fromarray(processed_ir_image),
             )
 

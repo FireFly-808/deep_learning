@@ -5,6 +5,8 @@ opencv-python
 # torch==1.12.1
 # torchvision==0.13.1
 segmentation-models-pytorch==0.3.2
+scikit-learn
+cmapy
 
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch

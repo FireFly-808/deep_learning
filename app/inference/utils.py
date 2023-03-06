@@ -138,3 +138,37 @@ def send_classification(url, masked_image, is_hotspot):
     # make the POST request with the payload
     res = requests.post(url, data=data, files=files)
     return res
+
+def send_classification_with_ir(url, image_masked, image_ir, is_hotspot):
+    """
+    It takes a masked image, and a boolean value indicating whether the image is a hotspot or not, and
+    sends it to the endpoint
+    
+    :param url: the URL of the endpoint to send the classification to
+    :param masked_image: the image that was masked
+    :param is_hotspot: True or False
+    """
+
+    img_masked = Image.fromarray(image_masked, mode="RGB")
+    buffer_masked = io.BytesIO()
+    img_masked.save(buffer_masked, format='PNG')
+    image_masked_file = ("image_masked.png", buffer_masked.getvalue())
+
+    img_ir = Image.fromarray(image_ir, mode="L")
+    buffer_ir = io.BytesIO()
+    img_ir.save(buffer_ir, format='PNG')
+    image_ir_file = ("image_ir.png", buffer_ir.getvalue())
+
+    # create the payloads
+    data = {
+        "is_hotspot": is_hotspot
+    }
+    files = {
+        "image_masked": image_masked_file,
+        "image_ir": image_ir_file,
+    }
+
+    # make the POST request with the payload
+    res = requests.post(url, data=data, files=files)
+    return res
+

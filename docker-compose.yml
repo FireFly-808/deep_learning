@@ -10,5 +10,6 @@ services:
       - ./app:/app
     environment:
       - DEBUG=0
+      - SERVER_URL=http://ec2-44-214-38-103.compute-1.amazonaws.com
     # command: tail -F anything
-    command: sh -c "python flame_inferencer.py"
+    command: sh -c "python fused_inferencer.py"

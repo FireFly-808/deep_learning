@@ -15,7 +15,7 @@ INTERVAL = 5
 
 DEBUG = bool(int(os.environ.get('DEBUG',1)))
 
-AWS_SERVER = 'http://ec2-3-219-240-142.compute-1.amazonaws.com'
+AWS_SERVER = os.environ.get('SERVER_URL')
 LOCALHOST = 'http://127.0.0.1:8000'
 LOCALHOST = 'http://app:8000'
 
